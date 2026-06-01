@@ -26,6 +26,9 @@ services:
       N8N_RUNNERS_AUTH_TOKEN: ${N8N_RUNNERS_AUTH_TOKEN:?}
     expose:
       - "5679"
+    networks:
+      - default
+      - coolify
 
   task-runner:
     image: ${N8N_RUNNERS_IMAGE:-n8nio/runners:2.22.5}
@@ -38,3 +41,7 @@ services:
       N8N_RUNNERS_MAX_CONCURRENCY: ${N8N_RUNNERS_MAX_CONCURRENCY:-5}
       N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT: ${N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT:-15}
       GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-America/Sao_Paulo}
+
+networks:
+  coolify:
+    external: true
