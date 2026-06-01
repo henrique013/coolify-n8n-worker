@@ -11,7 +11,7 @@ Este recurso executa workers do n8n em queue mode com um task runner sidecar. El
 - Conectar no mesmo Postgres externo do `n8n-main`.
 - Conectar no mesmo Redis dedicado do `n8n-main`.
 - Servir como unidade móvel de escala para VPSs adicionais.
-- Persistir `/home/node/.n8n` em volume Docker externo informado por `N8N_DATA_VOLUME`.
+- Persistir `/home/node/.n8n` em bind mount informado por `N8N_DATA_SOURCE`.
 
 ## Fora do repositório
 
