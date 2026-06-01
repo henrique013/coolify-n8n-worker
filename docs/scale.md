@@ -21,7 +21,6 @@ N8N_IMAGE
 N8N_RUNNERS_IMAGE
 GENERIC_TIMEZONE
 N8N_ENCRYPTION_KEY
-N8N_DATA_SOURCE
 N8N_WORKER_CONCURRENCY
 QUEUE_HEALTH_CHECK_ACTIVE
 N8N_POSTGRES_HOST
@@ -38,7 +37,7 @@ N8N_RUNNERS_MAX_CONCURRENCY
 N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT
 ```
 
-`N8N_DATA_SOURCE` deve apontar para um diretório estável no host. Para workers em outra VPS, crie e configure um caminho equivalente ou mova binários para storage externo suportado antes de depender de arquivos locais.
+O diretório persistente do host é `/data/n8n/shared/.n8n`. Para workers em outra VPS, crie e configure um caminho equivalente ou mova binários para storage externo suportado antes de depender de arquivos locais.
 
 O recurso Coolify deve ficar com `Connect to Predefined Network` habilitado para alcançar Postgres e Redis externos na rede privada gerenciada pelo Coolify.
 
