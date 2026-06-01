@@ -22,24 +22,44 @@ services:
       N8N_RUNNERS_MODE: external
       N8N_RUNNERS_BROKER_LISTEN_ADDRESS: 0.0.0.0
       N8N_RUNNERS_AUTH_TOKEN: ${N8N_RUNNERS_AUTH_TOKEN:?}
+      TZ: ${GENERIC_TIMEZONE:-America/Sao_Paulo}
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+    volumes:
+      - n8n-data:/home/node/.n8n
     expose:
       - "5679"
-    networks:
-      - default
-      - coolify
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -q -O - http://127.0.0.1:5678/healthz/readiness >/dev/null 2>&1 || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
 
   task-runner:
     image: ${N8N_RUNNERS_IMAGE:-n8nio/runners:2.22.5}
     restart: unless-stopped
     depends_on:
-      - n8n-worker
+      n8n-worker:
+        condition: service_healthy
     environment:
       N8N_RUNNERS_TASK_BROKER_URI: http://n8n-worker:5679
       N8N_RUNNERS_AUTH_TOKEN: ${N8N_RUNNERS_AUTH_TOKEN:?}
       N8N_RUNNERS_MAX_CONCURRENCY: ${N8N_RUNNERS_MAX_CONCURRENCY:-5}
       N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT: ${N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT:-15}
       GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-America/Sao_Paulo}
+      TZ: ${GENERIC_TIMEZONE:-America/Sao_Paulo}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -q -O - http://127.0.0.1:5680/healthz >/dev/null 2>&1 || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
 
-networks:
-  coolify:
+volumes:
+  n8n-data:
+    name: ${N8N_DATA_VOLUME:?}
     external: true

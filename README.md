@@ -11,6 +11,7 @@ Este recurso executa workers do n8n em queue mode com um task runner sidecar. El
 - Conectar no mesmo Postgres externo do `n8n-main`.
 - Conectar no mesmo Redis dedicado do `n8n-main`.
 - Servir como unidade móvel de escala para VPSs adicionais.
+- Persistir `/home/node/.n8n` em volume Docker externo informado por `N8N_DATA_VOLUME`.
 
 ## Fora do repositório
 
@@ -22,3 +23,4 @@ Este recurso executa workers do n8n em queue mode com um task runner sidecar. El
 - Domínio público.
 
 As variáveis reais devem ser configuradas no recurso Git-based do Coolify.
+O recurso deve ficar com `Connect to Predefined Network` habilitado para acessar Postgres e Redis gerenciados pelo Coolify.
